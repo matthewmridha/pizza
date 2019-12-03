@@ -1,0 +1,12 @@
+body {
+    background: white;
+}
+
+#cart {
+    display: none;
+}
+
+#topping_options {
+    background: cyan;
+    color: magenta;
+}

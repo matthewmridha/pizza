@@ -1,0 +1,177 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Pizza regular -->
+{% if pizza_regular %}
+<h1>Pizza Regular</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>small</th>
+        <th>large</th>
+    </tr>
+    {% for item in pizza_regular %}
+    <tr>
+        <td> {{ item.sub_catagory|title }}</td>
+        <td>
+            <button class="add_to_cart" onclick="addPizzaR('Small Regular Pizza with {{item.sub_catagory}}', '{{item.small_price}}')">
+                $ {{ item.small_price|floatformat:"2" }}
+            </button>
+        </td>
+        <td>
+            <button class="add_to_cart" onclick="addPizzaR('Large Regular Pizza with {{item.sub_catagory}}', '{{item.large_price}}')">
+                $ {{ item.large_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<!-- Pizza Sicilian -->
+{% if pizza_sicilian %}
+<h1>Pizza Sicilian</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>small</th>
+        <th>large</th>
+    </tr>
+    {% for item in pizza_sicilian %}
+    <tr>
+        <td>{{ item.sub_catagory|title }}</td>
+        <td>
+            <button class="add_to_cart" onclick="addPizzaS('Small Sicilian Pizza with {{item.sub_catagory}}', '{{item.small_price}}')">
+                $ {{ item.small_price|floatformat:"2" }}
+            </button>
+        </td>
+        <td>
+            <button class="add_to_cart" onclick="addPizzaS('Large Sicilian Pizza with {{item.sub_catagory}}', '{{item.large_price}}')">
+                $ {{ item.large_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<!-- Toppings -->
+<h2>Toppings</h2>
+<ul>
+    {% for item in toppings %}
+    <li>{{ item.topping }} {% if item.available == False %} sold out {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<!-- Subs -->
+{% if subs %}
+<h1>Sub</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>small</th>
+        <th>large</th>
+    </tr>
+    {% for item in subs %}
+    <tr>
+        <td>{{ item.sub_catagory|title }}</td>
+        <td><button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.small_price}}', 'small')">
+                $ {{ item.small_price|floatformat:"2" }}
+            </button></td>
+        <td>
+            <button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.large_price}}', 'large')">
+                $ {{ item.large_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<!-- Pasta -->
+{% if pasta %}
+<h1>Pasta</h1>
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for item in pasta %}
+    <tr>
+        <td> {{ item.sub_catagory|title }}</td>
+        <td>
+            <button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.regular_price}}')">
+                $ {{ item.regular_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<!-- Salad -->
+{% if salad %}
+<h1>Salad</h1>
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for item in salad %}
+    <tr>
+        <td> {{ item.sub_catagory|title }}</td>
+        <td>
+            <button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.regular_price}}')">
+                $ {{ item.regular_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<!-- Dinner Plate -->
+{% if dinner_plate %}
+<h1>Dinner Plate</h1>
+<table>
+    <tr>
+        <th></th>
+        <th>small</th>
+        <th>large</th>
+    </tr>
+    {% for item in dinner_plate %}
+    <tr>
+        <td> {{ item.sub_catagory|title }}</td>
+        <td>
+            <button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.small_price}}', 'small')">
+                $ {{ item.small_price|floatformat:"2" }}
+            </button>
+        </td>
+        <td>
+            <button class="add_to_cart" onclick="addToCart('{{item.sub_catagory}}', '{{item.large_price}}', 'large')">
+                $ {{ item.large_price|floatformat:"2" }}
+            </button>
+        </td>
+    </tr>
+    {% endfor %} {% endif %}
+
+</table>
+
+<div id="topping_options">
+    {% for item in toppings %} {% if item.available == True %}
+    <input type="checkbox" value={{item.topping}} name="topping" />{{item.topping}} {% endif %}{% endfor %}
+</div>
+
+
+<button id="show_cart" onclick="showCart()">cart</button>
+<div id="cart">
+    <div>
+        <table id="cart_list">
+            <th> item </th>
+            <th> price </th>
+        </table>
+        <div id="total_price">
+
+        </div>
+    </div>
+    <form id="cart_form" action=" " method="POST">{% csrf_token %}
+        <input id="cart_items" type="hidden" value=[]/>
+        <button id="cart_submit" type="submit">Checkout</button>
+    </form>
+
+</div>
+
+{% endblock %}
